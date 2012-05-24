@@ -35,8 +35,7 @@ class UsersController < ApplicationController
 
       respond_to do |format|
         format.html {redirect_to @user}
-        format.json {@user.errors.full_messages.each 
-          do |message|
+        format.json {@user.errors.full_messages.each do |message|
             render :text => message
           end
         }
@@ -46,8 +45,7 @@ class UsersController < ApplicationController
     else
       respond_to do |format|
         format.html {render 'edit'}
-        format.json {@user.errors.full_messages.each 
-          do |message|
+        format.json {@user.errors.full_messages.each do |message|
             render :text => message
           end
         }
