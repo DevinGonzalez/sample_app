@@ -1,7 +1,8 @@
 class UsersController < ApplicationController
-  before_filter :signed_in_user, only: [:index, :edit, :update, :destroy]
-  before_filter :correct_user,   only: [:edit, :update]
-  before_filter :admin_user,     only: :destroy
+  before_filter :signed_in_user,  only: [:index, :edit, :update, :destroy]
+  before_filter :signed_out_user, only: [:new, :create]
+  before_filter :correct_user,    only: [:edit, :update]
+  before_filter :admin_user,      only: :destroy
 
   def index
     @users = User.paginate(page: params[:page])
@@ -53,7 +54,6 @@ class UsersController < ApplicationController
         }
       end
 
-      #render :text => 'success'##
     else
       respond_to do |format|
         format.html {render 'edit'}
@@ -71,6 +71,13 @@ class UsersController < ApplicationController
       unless signed_in?
         store_location
         redirect_to signin_path, notice: "Please sign in."
+      end
+    end
+
+    def signed_out_user
+      if signed_in?
+        redirect_to root_path, 
+          notice: "Please sign out before creating a new user."
       end
     end
 
